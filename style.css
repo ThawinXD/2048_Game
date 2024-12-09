@@ -1,0 +1,121 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: Arial;
+}
+
+body {
+   background-color: #333;
+   display: flex;
+   justify-content: center;
+   flex-direction: row;
+   align-items: center;
+   height: 100vh;
+   margin: 0;
+   font-size: 7.5vmin;
+}
+
+@media (max-width: 800px) {
+   body {
+      flex-direction: column;
+   }
+}
+
+#game-board {
+   display: grid;
+   grid-template-columns: repeat(var(--grid-size), var(--cell-size));
+   grid-template-rows: repeat(var(--grid-size), var(--cell-size));
+   background-color: #ccc;
+   gap: var(--gap-size);
+   border-radius: 1vmin;
+   padding: 2vmin;
+   position: relative;
+   margin: 3vmin;
+}
+
+.cell {
+   background-color: #aaa;
+   border-radius: 1vmin;
+}
+
+.tile {
+   position: absolute;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: var(--cell-size);
+   height: var(--cell-size);
+   border-radius: 1vmin;
+   left: calc(var(--x) * (var(--cell-size) + var(--gap-size)) + var(--gap-size));
+   top: calc(var(--y) * (var(--cell-size) + var(--gap-size)) + var(--gap-size));
+   font-weight: bold;
+   background-color: hsl(200, 50%, var(--background-lightness));
+   color: hsl(200, 20%, var(--text-lightness));
+   animation: show 200ms ease-in-out;
+   transition: 100ms ease-in-out;
+}
+
+@keyframes show {
+   0% {
+      transform: scale(0);
+   }
+   100% {
+      transform: scale(1);
+   }
+}
+
+#buttonArrows {
+   display: grid;
+   grid-template-columns: 12vmin 12vmin 12vmin;
+   grid-template-rows: 12vmin 12vmin 12vmin;
+   grid-template-areas: 
+   ". up ."
+   "left . right"
+   ". down ."; 
+   justify-content: center;
+   align-items: center;
+}
+
+#buttonArrows button {
+   /* background-color: gainsboro; */
+   width: 15vmin;
+   height: 15vmin;
+   border-radius: 7vmin;
+   border-style: solid;
+   border-color: darkgrey;
+   font-size: 3vmin;
+}
+
+#button {
+   border-width: 1vmin;
+   /* border-color: gainsboro; */
+}
+
+.up {
+   grid-area: up;
+   
+}
+.down {
+   grid-area: down;
+}
+.left {
+   grid-area: left;
+}
+.right {
+   grid-area: right;
+}
+
+@keyframes buttonClick {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+#buttonArrows button:active {
+    animation: buttonClick 0.2s ease;
+}
