@@ -116,33 +116,33 @@ function slideTilds(cells) {
    return Promise.all(
       cells.flatMap(group => {
          const promise = [];
-      for(let i = 1; i < group.length; i++) {
-         const cell = group[i];
+         for(let i = 1; i < group.length; i++) {
+            const cell = group[i];
 
-         if(cell.tile == null) continue;
+            if(cell.tile == null) continue;
 
-         let lastValidCell = null;
-         for(let j = i - 1; j >= 0; j--) {
-            const nextCell = group[j];
+            let lastValidCell = null;
+            for(let j = i - 1; j >= 0; j--) {
+               const nextCell = group[j];
 
-            if(!nextCell.canMove(cell.tile)) break;
+               if(!nextCell.canMove(cell.tile)) break;
 
-            lastValidCell = nextCell;
-         }
-
-         if(lastValidCell != null) {
-            promise.push(cell.tile.waitForMove());
-            if(lastValidCell.tile != null) {
-               lastValidCell.margeTile = cell.tile;
-            }
-            else {
-               lastValidCell.tile = cell.tile;
+               lastValidCell = nextCell;
             }
 
-            cell.tile = null;
+            if(lastValidCell != null) {
+               promise.push(cell.tile.waitForMove());
+               if(lastValidCell.tile != null) {
+                  lastValidCell.margeTile = cell.tile;
+               }
+               else {
+                  lastValidCell.tile = cell.tile;
+               }
+
+               cell.tile = null;
+            }
          }
-      }
-      return promise;
+         return promise;
       })
    );
 }
